@@ -3,19 +3,23 @@ import { useEffect } from "react";
 import "./App.css";
 
 function App() {
-  let [string, setString] = useState();
-  useEffect(() => {
+  const [string, setString] = useState("");
+  const fetchApi = () => {
     fetch("https://api.chucknorris.io/jokes/random")
       .then((resp) => resp.json())
       .then((data) => {
-        string = data.value;
+        setString(data.value);
       });
-  });
+  };
+  useEffect(() => {
+    fetchApi()
+  }, []);
 
+console.log("render", string)
   return (
     <div className="App">
       <p className="text">{string}</p>
-      <button type="button" className="update" onClick={() => setString(string)}>
+      <button type="button" className="update" onClick={() => fetchApi()}>
         update
       </button>
     </div>
